@@ -18,16 +18,16 @@ function normalizeIsbn(source: string): string {
 }
 
 export default class ExamplePlugin extends Plugin {
-	async onload() {
+	onload() {
 		this.registerMarkdownCodeBlockProcessor('isbn', async (source, el, ctx) => {
 			const isbn = normalizeIsbn(source);
 			if (!isbn) {
-				el.createEl('p', { text: 'ISBNを入力してください。', cls: 'openbd-error' });
+				el.createEl('p', { text: 'Please enter an ISBN.', cls: 'openbd-error' });
 				return;
 			}
 
 			const card = el.createEl('div', { cls: 'openbd-card' });
-			card.createEl('p', { text: '取得中…', cls: 'openbd-loading' });
+			card.createEl('p', { text: 'Loading...', cls: 'openbd-loading' });
 
 			try {
 				const res = await fetch(`${OPENBD_API}?isbn=${encodeURIComponent(isbn)}`);
@@ -35,13 +35,13 @@ export default class ExamplePlugin extends Plugin {
 
 				card.empty();
 				if (!Array.isArray(data) || data.length === 0 || !data[0]) {
-					card.createEl('p', { text: '書誌情報が見つかりませんでした。', cls: 'openbd-error' });
+					card.createEl('p', { text: 'Bibliographic information not found.', cls: 'openbd-error' });
 					return;
 				}
 
 				const summary = (data[0] as { summary?: OpenBDSummary }).summary;
 				if (!summary) {
-					card.createEl('p', { text: '書誌情報がありません。', cls: 'openbd-error' });
+					card.createEl('p', { text: 'Bibliographic information is not available.', cls: 'openbd-error' });
 					return;
 				}
 
@@ -66,7 +66,7 @@ export default class ExamplePlugin extends Plugin {
 				}
 			} catch (e) {
 				card.empty();
-				card.createEl('p', { text: `取得に失敗しました: ${e instanceof Error ? e.message : String(e)}`, cls: 'openbd-error' });
+				card.createEl('p', { text: `Failed to retrieve data: ${e instanceof Error ? e.message : String(e)}`, cls: 'openbd-error' });
 			}
 		});
 	}
