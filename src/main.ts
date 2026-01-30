@@ -1,4 +1,4 @@
-import { Plugin } from 'obsidian';
+import { Plugin, requestUrl } from 'obsidian';
 
 const OPENBD_API = 'https://api.openbd.jp/v1/get';
 
@@ -17,7 +17,7 @@ function normalizeIsbn(source: string): string {
 	return source.trim().replace(/-/g, '');
 }
 
-export default class ExamplePlugin extends Plugin {
+export default class BookBibliographyCardPlugin extends Plugin {
 	onload() {
 		this.registerMarkdownCodeBlockProcessor('isbn', async (source, el, ctx) => {
 			const isbn = normalizeIsbn(source);
@@ -30,8 +30,8 @@ export default class ExamplePlugin extends Plugin {
 			card.createEl('p', { text: 'Loading...', cls: 'openbd-loading' });
 
 			try {
-				const res = await fetch(`${OPENBD_API}?isbn=${encodeURIComponent(isbn)}`);
-				const data = await res.json();
+				const res = await requestUrl(`${OPENBD_API}?isbn=${encodeURIComponent(isbn)}`);
+				const data = await res.json;
 
 				card.empty();
 				if (!Array.isArray(data) || data.length === 0 || !data[0]) {
