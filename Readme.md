@@ -6,6 +6,10 @@ It fetches data from OpenBD.
 
 https://openbd.jp/
 
+## Disclosures
+
+**Network use.** This plugin accesses the OpenBD API (https://api.openbd.jp/) over the network. OpenBD is used to retrieve book cover images and bibliography (title, author, publisher, publication date) by ISBN. No other remote services are used.
+
 ## Usage
 
 ```isbn
