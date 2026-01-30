@@ -17,95 +17,8 @@ function normalizeIsbn(source: string): string {
 	return source.trim().replace(/-/g, '');
 }
 
-const CARD_CSS = `
-.openbd-card { margin: 1em 0; }
-.openbd-card-inner {
-	display: flex;
-	gap: 1.25em;
-	align-items: flex-start;
-	padding: 1.25em;
-	border: none;
-	border-radius: 12px;
-	background: var(--background-secondary);
-	box-shadow: 0 2px 8px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
-	transition: box-shadow 0.2s ease, transform 0.2s ease;
-	position: relative;
-	overflow: hidden;
-}
-.openbd-card-inner::before {
-	content: "";
-	position: absolute;
-	left: 0;
-	top: 0;
-	bottom: 0;
-	width: 3px;
-	background: linear-gradient(180deg, var(--interactive-accent), var(--interactive-accent-hover));
-	border-radius: 12px 0 0 12px;
-}
-.openbd-card-inner:hover {
-	box-shadow: 0 8px 24px rgba(0,0,0,0.08), 0 2px 6px rgba(0,0,0,0.04);
-}
-.openbd-cover {
-	flex-shrink: 0;
-	line-height: 0;
-	margin-left: 4px;
-}
-.openbd-cover img {
-	display: block;
-	max-height: 160px;
-	width: auto;
-	border-radius: 8px;
-	box-shadow: 0 4px 12px rgba(0,0,0,0.12), 0 2px 4px rgba(0,0,0,0.06);
-	transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-.openbd-card-inner:hover .openbd-cover img {
-	transform: translateY(-2px);
-	box-shadow: 0 8px 20px rgba(0,0,0,0.14), 0 4px 8px rgba(0,0,0,0.06);
-}
-.openbd-meta {
-	flex: 1;
-	min-width: 0;
-	font-size: 0.925em;
-	letter-spacing: 0.01em;
-}
-.openbd-title {
-	font-weight: 700;
-	font-size: 1.05em;
-	margin-bottom: 0.5em;
-	line-height: 1.35;
-	letter-spacing: -0.01em;
-	color: var(--text-normal);
-}
-.openbd-author {
-	color: var(--text-muted);
-	font-size: 0.9em;
-	margin-top: 0.25em;
-	font-weight: 500;
-}
-.openbd-publisher, .openbd-pubdate {
-	color: var(--text-faint);
-	font-size: 0.85em;
-	margin-top: 0.15em;
-}
-.openbd-loading, .openbd-error {
-	color: var(--text-muted);
-	margin: 0.5em 0;
-	font-size: 0.9em;
-}
-.openbd-error { color: var(--text-error); }
-`;
-
 export default class ExamplePlugin extends Plugin {
-	private styleEl: HTMLStyleElement | null = null;
-
-	private addStyle(): void {
-		this.styleEl = document.createElement('style');
-		this.styleEl.textContent = CARD_CSS;
-		document.head.appendChild(this.styleEl);
-	}
-
 	async onload() {
-		this.addStyle();
 		this.registerMarkdownCodeBlockProcessor('isbn', async (source, el, ctx) => {
 			const isbn = normalizeIsbn(source);
 			if (!isbn) {
@@ -156,10 +69,5 @@ export default class ExamplePlugin extends Plugin {
 				card.createEl('p', { text: `取得に失敗しました: ${e instanceof Error ? e.message : String(e)}`, cls: 'openbd-error' });
 			}
 		});
-	}
-
-	onunload() {
-		this.styleEl?.remove();
-		this.styleEl = null;
 	}
 }
