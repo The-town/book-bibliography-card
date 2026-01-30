@@ -1,7 +1,7 @@
 {
 	"id": "book-bibliography-card",
 	"name": "Book Bibliography Card",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"minAppVersion": "0.15.0",
 	"description": "Display book cover and bibliography from ISBN (OpenBD). Write ISBN in a code block to show a book card.",
 	"author": "The Town",

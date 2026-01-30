@@ -1,6 +1,6 @@
 {
 	"name": "obsidian-book-bibliography-card",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"description": "Display book cover and bibliography from ISBN (OpenBD) as a card in Obsidian.",
 	"main": "main.js",
 	"type": "module",
