@@ -22,7 +22,7 @@ export default class BookBibliographyCardPlugin extends Plugin {
 		this.registerMarkdownCodeBlockProcessor('isbn', async (source, el, ctx) => {
 			const isbn = normalizeIsbn(source);
 			if (!isbn) {
-				el.createEl('p', { text: 'Please enter an ISBN.', cls: 'openbd-error' });
+				el.createEl('p', { text: 'Please enter an isbn.', cls: 'openbd-error' });
 				return;
 			}
 
